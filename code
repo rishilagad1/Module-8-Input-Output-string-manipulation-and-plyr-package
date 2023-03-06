@@ -1,0 +1,156 @@
+#In this assignment I additionally added one data set
+#Imports dataset in R and assigns as ‘x’
+> x=read.table(file.choose(),header=TRUE,sep=",")
+> x
+   Name      Sex Age Height..in. Weight..lbs.
+1  Alex        M  41          74          170
+2  Bert        M  42          68          166
+3  Carl        M  32          70          155
+4  Dave        M  39          72          167
+5  Elly        F  30          66          124
+6  Fran        F  33          66          115
+7  Gwen        F  26          64          121
+8  Hank        M  30          71          158
+9  Ivan        M  53          72          175
+10 Jake        M  32          69          143
+11 Kate        F  47          69          139
+12 Luke        M  34          72          163
+13 Myra        F  23          62           98
+14 Neil        M  36          75          160
+15 Omar        M  38          70          145
+16 Page        F  31          67          135
+17 Quin        M  29          71          176
+18 Ruth        F  28          65          131
+> install.packages("plyr")
+#Plyr’ package allows to Split data, run functions on that split section, and combine it with the original data set. The syntax is the same across all its functions,
+instead of loading 5 packages for each data type. This makes the 'plyr' package the best choice.
+
+> library(plyr)
+> y = ddply(x,"Sex",transform, Weight.Average=mean(Weight..lbs.))
+> y
+   Name      Sex Age Height..in. Weight..lbs. Weight.Average
+1  Elly        F  30          66          124       123.2857
+2  Fran        F  33          66          115       123.2857
+3  Gwen        F  26          64          121       123.2857
+4  Kate        F  47          69          139       123.2857
+5  Myra        F  23          62           98       123.2857
+6  Page        F  31          67          135       123.2857
+7  Ruth        F  28          65          131       123.2857
+8  Alex        M  41          74          170       161.6364
+9  Bert        M  42          68          166       161.6364
+10 Carl        M  32          70          155       161.6364
+11 Dave        M  39          72          167       161.6364
+12 Hank        M  30          71          158       161.6364
+13 Ivan        M  53          72          175       161.6364
+14 Jake        M  32          69          143       161.6364
+15 Luke        M  34          72          163       161.6364
+16 Neil        M  36          75          160       161.6364
+17 Omar        M  38          70          145       161.6364
+18 Quin        M  29          71          176       161.6364
+> write.table(y,"Sorted_Average")
+> #Generate a CSV(comma-separated values)
+> write.table(y,"Sorted_Average",sep=",")
+> newx = subset(x,grepl("[an]",x$Name))
+> newx
+   Name      Sex Age Height..in. Weight..lbs.
+3  Carl        M  32          70          155
+4  Dave        M  39          72          167
+6  Fran        F  33          66          115
+7  Gwen        F  26          64          121
+8  Hank        M  30          71          158
+9  Ivan        M  53          72          175
+10 Jake        M  32          69          143
+11 Kate        F  47          69          139
+13 Myra        F  23          62           98
+15 Omar        M  38          70          145
+16 Page        F  31          67          135
+17 Quin        M  29          71          176
+> write.table(newx,"DataSubset",sep=",")
+sorted 3.pngsorted4.png
+"Name","Sex","Age","Height..in.","Weight..lbs.","Weight.Average"
+"1","Elly","       F",30,66,124,123.285714285714
+"2","Fran","       F",33,66,115,123.285714285714
+"3","Gwen","       F",26,64,121,123.285714285714
+"4","Kate","       F",47,69,139,123.285714285714
+"5","Myra","       F",23,62,98,123.285714285714
+"6","Page","       F",31,67,135,123.285714285714
+"7","Ruth","       F",28,65,131,123.285714285714
+"8","Alex","       M",41,74,170,161.636363636364
+"9","Bert","       M",42,68,166,161.636363636364
+"10","Carl","       M",32,70,155,161.636363636364
+"11","Dave","       M",39,72,167,161.636363636364
+"12","Hank","       M",30,71,158,161.636363636364
+"13","Ivan","       M",53,72,175,161.636363636364
+"14","Jake","       M",32,69,143,161.636363636364
+"15","Luke","       M",34,72,163,161.636363636364
+"16","Neil","       M",36,75,160,161.636363636364
+"17","Omar","       M",38,70,145,161.636363636364
+"18","Quin","       M",29,71,176,161.636363636364
+ 
+
+#dataset given for assignment:
+> #Import dataset into R and assigns as ‘x’
+> x=read.table(file.choose(),header=TRUE,sep=",")
+> x
+        Name Age    Sex Grade
+1       Raul  25   Male    80
+2     Booker  18   Male    83
+3      Lauri  21 Female    90
+4     Leonie  21 Female    91
+5 Sherlyn      22 Female    85
+ 6 Mikaela      20 Female    69
+ 7 Raphael      23 Male      91
+ 8 Aiko         24 Female    97
+ 9 Tiffaney     21 Female    78
+10 Cornia       23 Female    81
+11 Petronila    23 Female    98
+12 Alecia       20 Female    87
+13 Shemika      23 Female    97
+14 Fallon       22 Female    90
+15 Deloris      21 Female    67
+16 Randee       23 Female    91
+17 Eboni        20 Female    84
+18 Delfina      19 Female    93
+19 Ernestina    19 Female    93
+20 Milo         19 Male      67
+> #installs 'plyr' package from CRAN
+> install.packages("plyr")
+> #loads package 'plyr'
+> library(plyr)
+> #run plyer generates for the mean of both Age and Grade split by gender
+> y = ddply(x,"Sex",transform, Grade.Average=mean(Grade))
+> y
+        Name Age    Sex Grade Grade.Average
+1      Lauri  21 Female    90       86.9375
+2     Leonie  21 Female    91       86.9375
+3    Sherlyn  22 Female    85       86.9375
+4    Mikaela  20 Female    69       86.9375
+5       Aiko  24 Female    97       86.9375
+6   Tiffaney  21 Female    78       86.9375
+7     Corina  23 Female    81       86.9375
+8  Petronila  23 Female    98       86.9375
+9     Alecia  20 Female    87       86.9375
+10   Shemika  23 Female    97       86.9375
+11    Fallon  22 Female    90       86.9375
+12   Deloris  21 Female    67       86.9375
+13    Randee  23 Female    91       86.9375
+14     Eboni  20 Female    84       86.9375
+15   Delfina  19 Female    93       86.9375
+16 Ernestina  19 Female    93       86.9375
+17      Raul  25   Male    80       80.2500
+18    Booker  18   Male    83       80.2500
+19   Raphael  23   Male    91       80.2500
+20      Milo  19   Male    67       80.2500
+> #Print this to a file
+> write.table(y,"Sorted_Average")
+#sep=","’ code separates columns in the table by commas.
+
+> #Generate a CSV(comma-separated values)
+> write.table(y,"Sorted_Average",sep=",")
+> #Filter the names in the given list that contain the letter i or I.
+> newx = subset(x,grepl("[iI]",x$Name))
+#write.table’ function is used to write the table ‘newx’ to file ‘DataSubset’
+> #writes this subset to a file
+> write.table(newx,"DataSubset",sep=",")
+sorted1.pngsorted 2.png
+ Thank You. ....
